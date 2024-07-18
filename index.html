@@ -28,13 +28,19 @@
                 </form>
             </section>
 
+            <section class="filter-section">
+                <h2>Filtrer par Date</h2>
+                <input type="date" id="filter-date">
+            </section>
+
             <section class="product-list-section">
                 <h2>Liste de Courses</h2>
-                <ul id="product-list"></ul>
+                <div id="product-list-container"></div>
+                <p id="no-results-message" style="display:none;">Aucun produit trouvé pour cette date.</p>
             </section>
         </main>
     </div>
-
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
     <script src="app.js"></script>
 </body>
 </html>
