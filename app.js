@@ -27,7 +27,18 @@ function initializePage() {
     logoutBtn.style.display = 'none';
     addProductForm.style.display = 'none';
     productListContainer.style.display = 'none';
-    
+    filterDateInput.style.display = 'none';
+
+    // Masquer les en-têtes (h2) uniquement lors de l'initialisation
+    const addProductHeader = document.querySelector('.add-product-section h2');
+    const productListHeader = document.querySelector('.product-list-section h2');
+
+    if (addProductHeader) {
+        addProductHeader.style.display = 'none';
+    }
+    if (productListHeader) {
+        productListHeader.style.display = 'none';
+    }
 }
 
 // Afficher le formulaire de connexion
@@ -102,6 +113,7 @@ loginForm.addEventListener('submit', async (event) => {
     logoutBtn.style.display = 'inline';
     showLoginBtn.style.display = 'none';
     showRegisterBtn.style.display = 'none';
+    filterDateInput.style.display = 'block';
 
     currentUser = user; // Assurez-vous que currentUser est correctement mis à jour
     fetchProducts();
@@ -259,9 +271,21 @@ supabaseClient.auth.onAuthStateChange((event, session) => {
         currentUser = session.user;
         addProductForm.style.display = 'block';
         productListContainer.style.display = 'block';
+        filterDateInput.style.display = 'block';
         showLoginBtn.style.display = 'none';
         showRegisterBtn.style.display = 'none';
         logoutBtn.style.display = 'inline';
+
+        // Afficher les en-têtes (h2) lors de la connexion
+        const addProductHeader = document.querySelector('.add-product-section h2');
+        const productListHeader = document.querySelector('.product-list-section h2');
+
+        if (addProductHeader) {
+            addProductHeader.style.display = 'block';
+        }
+        if (productListHeader) {
+            productListHeader.style.display = 'block';
+        }
         fetchProducts();
     } else {
         initializePage();
