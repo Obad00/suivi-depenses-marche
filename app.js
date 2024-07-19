@@ -5,14 +5,83 @@ const addProductForm = document.getElementById('add-product-form');
 const productListContainer = document.getElementById('product-list-container');
 const filterDateInput = document.getElementById('filter-date');
 const noResultsMessage = document.getElementById('no-results-message');
+const showLoginBtn = document.getElementById('show-login-btn');
+const showRegisterBtn = document.getElementById('show-register-btn');
+const loginSection = document.getElementById('login-section');
+const registerSection = document.getElementById('register-section');
+const loginForm = document.getElementById('login-form');
+const registerForm = document.getElementById('register-form');
+
+let currentUser = null;
+
+// Afficher le formulaire de connexion
+showLoginBtn.addEventListener('click', () => {
+    loginSection.style.display = 'block';
+    registerSection.style.display = 'none';
+});
+
+// Afficher le formulaire d'inscription
+showRegisterBtn.addEventListener('click', () => {
+    registerSection.style.display = 'block';
+    loginSection.style.display = 'none';
+});
+
+// Gestion de l'inscription
+registerForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const email = document.getElementById('register-email').value;
+    const password = document.getElementById('register-password').value;
+
+    const { user, error } = await supabaseClient.auth.signUp({
+        email: email,
+        password: password
+    });
+
+    if (error) {
+        console.error('Erreur lors de l\'inscription:', error.message);
+        alert('Erreur lors de l\'inscription: ' + error.message);
+        return;
+    }
+
+    alert('Inscription réussie! Vérifiez votre email pour confirmer votre compte.');
+    registerForm.reset();
+    registerSection.style.display = 'none';
+});
+
+// Gestion de la connexion
+loginForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const email = document.getElementById('login-email').value;
+    const password = document.getElementById('login-password').value;
+
+    const { user, session, error } = await supabaseClient.auth.signInWithPassword({
+        email: email,
+        password: password
+    });
+    
+
+    if (error) {
+        console.error('Erreur lors de la connexion:', error.message);
+        alert('Erreur lors de la connexion: ' + error.message);
+        return;
+    }
+
+    alert('Connexion réussie!');
+    loginForm.reset();
+    loginSection.style.display = 'none';
+
+    currentUser = user;
+    fetchProducts();
+});
 
 // Fonction pour récupérer et afficher les produits depuis Supabase
 async function fetchProducts(filterDate = null) {
     try {
-        let query = supabaseClient.from('products').select('*');
+        let query = supabaseClient.from('products').select('*').eq('user_id', currentUser.id);
 
         if (filterDate) {
-            // Définir le début et la fin de la journée pour le filtrage
             const startDate = new Date(filterDate);
             startDate.setHours(0, 0, 0, 0);
             const endDate = new Date(filterDate);
@@ -27,10 +96,8 @@ async function fetchProducts(filterDate = null) {
             throw error;
         }
 
-        // Effacer la liste actuelle avant de la mettre à jour
         productListContainer.innerHTML = '';
 
-        // Afficher un message si aucun produit n'est trouvé
         if (products.length === 0) {
             noResultsMessage.style.display = 'block';
             return;
@@ -38,7 +105,6 @@ async function fetchProducts(filterDate = null) {
             noResultsMessage.style.display = 'none';
         }
 
-        // Grouper les produits par date
         const groupedProducts = products.reduce((acc, product) => {
             const date = new Date(product.created_at).toLocaleDateString();
             if (!acc[date]) {
@@ -48,7 +114,6 @@ async function fetchProducts(filterDate = null) {
             return acc;
         }, {});
 
-        // Afficher chaque groupe de produits
         for (const [date, products] of Object.entries(groupedProducts)) {
             const dateSection = document.createElement('section');
             const dateHeader = document.createElement('h3');
@@ -60,7 +125,6 @@ async function fetchProducts(filterDate = null) {
                 const listItem = document.createElement('li');
                 listItem.textContent = `${product.name} - ${product.quantity} x ${product.price} (Ajouté le ${new Date(product.created_at).toLocaleDateString()})`;
 
-                // Ajouter un bouton de suppression
                 const deleteBtn = document.createElement('button');
                 deleteBtn.textContent = 'Supprimer';
                 deleteBtn.dataset.productId = product.id;
@@ -78,7 +142,15 @@ async function fetchProducts(filterDate = null) {
 }
 
 // Appeler la fonction pour récupérer et afficher les produits au chargement de la page
-fetchProducts();
+supabaseClient.auth.onAuthStateChange((event, session) => {
+    if (session) {
+        currentUser = session.user;
+        fetchProducts();
+    } else {
+        currentUser = null;
+        productListContainer.innerHTML = '';
+    }
+});
 
 // Gestion de l'ajout d'un produit
 addProductForm.addEventListener('submit', async (event) => {
@@ -94,7 +166,7 @@ addProductForm.addEventListener('submit', async (event) => {
     }
 
     const { data, error } = await supabaseClient.from('products').insert([
-        { name: productName, price: productPrice, quantity: productQuantity }
+        { name: productName, price: productPrice, quantity: productQuantity, user_id: currentUser.id }
     ]);
 
     if (error) {
@@ -103,7 +175,7 @@ addProductForm.addEventListener('submit', async (event) => {
     }
 
     if (data && data.length > 0) {
-        fetchProducts(); // Recharger la liste des produits
+        fetchProducts();
         addProductForm.reset();
     } else {
         console.error('Aucune donnée retournée après l\'ajout du produit.');
@@ -122,13 +194,12 @@ productListContainer.addEventListener('click', async (event) => {
             return;
         }
 
-        fetchProducts(); // Recharger la liste des produits après suppression
+        fetchProducts();
     }
 });
 
 // Gestion du filtrage par date
 filterDateInput.addEventListener('input', () => {
     const filterDate = filterDateInput.value ? new Date(filterDateInput.value).toISOString().split('T')[0] : null;
-    console.log('Filter Date:', filterDate); // Debug: Vérifiez que la date est correctement récupérée
     fetchProducts(filterDate);
 });
