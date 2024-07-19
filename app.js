@@ -11,19 +11,39 @@ const loginSection = document.getElementById('login-section');
 const registerSection = document.getElementById('register-section');
 const loginForm = document.getElementById('login-form');
 const registerForm = document.getElementById('register-form');
+const logoutBtn = document.getElementById('logout-btn');
 
 let currentUser = null;
+
+// Par défaut, seuls les boutons de connexion et d'inscription sont affichés
+function initializePage() {
+    loginSection.style.display = 'none';
+    registerSection.style.display = 'none';
+    addProductForm.style.display = 'none';
+    productListContainer.style.display = 'none';
+    noResultsMessage.style.display = 'none';
+    showLoginBtn.style.display = 'inline';
+    showRegisterBtn.style.display = 'inline';
+    logoutBtn.style.display = 'none';
+    addProductForm.style.display = 'none';
+    productListContainer.style.display = 'none';
+    
+}
 
 // Afficher le formulaire de connexion
 showLoginBtn.addEventListener('click', () => {
     loginSection.style.display = 'block';
     registerSection.style.display = 'none';
+    addProductForm.style.display = 'none';
+    productListContainer.style.display = 'none';
 });
 
 // Afficher le formulaire d'inscription
 showRegisterBtn.addEventListener('click', () => {
     registerSection.style.display = 'block';
     loginSection.style.display = 'none';
+    addProductForm.style.display = 'none';
+    productListContainer.style.display = 'none';
 });
 
 // Gestion de l'inscription
@@ -46,7 +66,13 @@ registerForm.addEventListener('submit', async (event) => {
 
     alert('Inscription réussie! Vérifiez votre email pour confirmer votre compte.');
     registerForm.reset();
+    loginSection.style.display = 'none';
     registerSection.style.display = 'none';
+    showLoginBtn.style.display = 'none';
+    showRegisterBtn.style.display = 'none';
+    logoutBtn.style.display = 'inline';
+    addProductForm.style.display = 'block';
+    productListContainer.style.display = 'block';
 });
 
 // Gestion de la connexion
@@ -60,7 +86,6 @@ loginForm.addEventListener('submit', async (event) => {
         email: email,
         password: password
     });
-    
 
     if (error) {
         console.error('Erreur lors de la connexion:', error.message);
@@ -71,14 +96,25 @@ loginForm.addEventListener('submit', async (event) => {
     alert('Connexion réussie!');
     loginForm.reset();
     loginSection.style.display = 'none';
+    registerSection.style.display = 'none';
+    addProductForm.style.display = 'block';
+    productListContainer.style.display = 'block';
+    logoutBtn.style.display = 'inline';
+    showLoginBtn.style.display = 'none';
+    showRegisterBtn.style.display = 'none';
 
-    currentUser = user;
+    currentUser = user; // Assurez-vous que currentUser est correctement mis à jour
     fetchProducts();
 });
 
 // Fonction pour récupérer et afficher les produits depuis Supabase
 async function fetchProducts(filterDate = null) {
     try {
+        if (!currentUser) {
+            console.error('Utilisateur non connecté');
+            return;
+        }
+
         let query = supabaseClient.from('products').select('*').eq('user_id', currentUser.id);
 
         if (filterDate) {
@@ -141,17 +177,6 @@ async function fetchProducts(filterDate = null) {
     }
 }
 
-// Appeler la fonction pour récupérer et afficher les produits au chargement de la page
-supabaseClient.auth.onAuthStateChange((event, session) => {
-    if (session) {
-        currentUser = session.user;
-        fetchProducts();
-    } else {
-        currentUser = null;
-        productListContainer.innerHTML = '';
-    }
-});
-
 // Gestion de l'ajout d'un produit
 addProductForm.addEventListener('submit', async (event) => {
     event.preventDefault();
@@ -165,6 +190,11 @@ addProductForm.addEventListener('submit', async (event) => {
         return;
     }
 
+    if (!currentUser) {
+        alert('Vous devez être connecté pour ajouter un produit.');
+        return;
+    }
+
     const { data, error } = await supabaseClient.from('products').insert([
         { name: productName, price: productPrice, quantity: productQuantity, user_id: currentUser.id }
     ]);
@@ -175,7 +205,7 @@ addProductForm.addEventListener('submit', async (event) => {
     }
 
     if (data && data.length > 0) {
-        fetchProducts();
+        fetchProducts(); // Recharger la liste des produits
         addProductForm.reset();
     } else {
         console.error('Aucune donnée retournée après l\'ajout du produit.');
@@ -198,8 +228,43 @@ productListContainer.addEventListener('click', async (event) => {
     }
 });
 
+// Gestion de la déconnexion
+logoutBtn.addEventListener('click', async () => {
+    const { error } = await supabaseClient.auth.signOut();
+
+    if (error) {
+        console.error('Erreur lors de la déconnexion:', error.message);
+        alert('Erreur lors de la déconnexion: ' + error.message);
+        return;
+    }
+
+    alert('Déconnexion réussie!');
+    currentUser = null;
+    productListContainer.innerHTML = '';
+    initializePage();
+});
+
 // Gestion du filtrage par date
 filterDateInput.addEventListener('input', () => {
     const filterDate = filterDateInput.value ? new Date(filterDateInput.value).toISOString().split('T')[0] : null;
     fetchProducts(filterDate);
 });
+
+// Appeler la fonction pour initialiser la page au chargement
+initializePage();
+
+// Vérifier l'état de connexion lors du chargement
+supabaseClient.auth.onAuthStateChange((event, session) => {
+    if (session) {
+        currentUser = session.user;
+        addProductForm.style.display = 'block';
+        productListContainer.style.display = 'block';
+        showLoginBtn.style.display = 'none';
+        showRegisterBtn.style.display = 'none';
+        logoutBtn.style.display = 'inline';
+        fetchProducts();
+    } else {
+        initializePage();
+    }
+});
+
