@@ -5,8 +5,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Suivi des Dépenses de Courses</title>
     <link rel="stylesheet" href="styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #304FFE;
+        }
+        #loading-screen {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #304FFE;
+        }
+        #loading-screen img {
+            width: 200px; /* Ajustez la taille de votre logo ici */
+        }
+        .container {
+            display: none; /* Cacher le contenu principal par défaut */
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            max-width: 600px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            border-radius: 8px;
+        }
+    </style>
 </head>
 <body>
+    <div id="loading-screen">
+        <img src="Group 438.png" alt="Logo de l'application">
+    </div>
+
     <div class="container">
         <header>
             <h1>Suivi des Dépenses de Courses</h1>
@@ -18,7 +55,6 @@
                 <button id="show-register-btn">Inscription</button>
                 <button id="logout-btn" style="display: none;">Déconnexion</button>
             </section>
-            
 
             <section id="register-section" class="auth-form-section" style="display: none;">
                 <h2>Inscription</h2>
@@ -47,7 +83,6 @@
                     <button type="submit">Ajouter</button>
                 </form>
             </section>
-            
 
             <section class="product-list-section">
                 <h2>Liste de Courses</h2>
@@ -57,6 +92,24 @@
             </section>
         </main>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Vérifie si la clé 'redirected' est présente dans le stockage local
+            if (localStorage.getItem('redirected')) {
+                document.getElementById('loading-screen').style.display = 'none';
+                document.querySelector('.container').style.display = 'flex';
+                // Supprime la clé du stockage local après la vérification
+                localStorage.removeItem('redirected');
+            } else {
+                // Affiche le logo de chargement pendant 5 secondes avant de rediriger
+                setTimeout(function() {
+                    window.location.href = 'loading.html';
+                }, 5000);
+            }
+        });
+    </script>
+
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
     <script src="app.js"></script>
 </body>

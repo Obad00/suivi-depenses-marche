@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suivi des Dépenses de Courses</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .bg-304FFE {
+            background-color: #304FFE;
+        }
+
+        .rounded-50 {
+            border-radius: 50px;
+        }
+    </style>
+</head>
+<body class="dark:bg-gray-700 p-4 min-h-screen">
+    <div class="relative py-12 overflow-hidden">
+        <div aria-hidden="true" class="absolute inset-0 w-full m-auto grid grid-cols-2 -space-x-52 opacity-20"></div>
+        <div class="max-w-7xl mx-auto px-6 md:px-12 xl:px-6">
+            <div class="relative">
+                <div class="flex flex-col items-center justify-center h-[50vh] px-2 sm:px-0 space-y-6">
+                    <!-- Première image en haut -->
+                    <img src="Send money abroad.png" alt="Description de l'image" class="mx-auto mb-6" /> 
+
+                    <!-- Deuxième image -->
+                    <img src="Slider indicator.jpg" alt="Description de l'image" class="mx-auto mb-6" /> 
+
+                    <!-- Contenu centré -->
+                    <div class="space-y-6 w-full sm:w-8/12 md:w-7/12 text-center">
+                        <!-- Titre -->
+                        <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-700 dark:text-white">
+                            Suivez et contrôlez vos achats quotidiens en toute simplicité.
+                        </h1>
+                        
+                       <!-- Bouton pour naviguer vers la page index -->
+                        <div class="flex flex-wrap justify-center gap-4 sm:gap-6">
+                            <a id="next-button" href="index.html" class="relative flex h-9 w-full items-center justify-center px-8 before:absolute 
+                                before:inset-0 before:rounded-full before:bg-304FFE before:transition before:duration-300 
+                                hover:before:scale-105 active:duration-75 active:before:scale-95 sm:w-max bg-304FFE rounded-50">
+                                <span class="relative text-sm font-semibold text-white">
+                                    Suivant
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('next-button').addEventListener('click', function() {
+            // Définit une clé dans le stockage local pour indiquer que l'utilisateur a cliqué sur le bouton
+            localStorage.setItem('redirected', 'true');
+            window.location.href = 'index.html';
+        });
+    </script>
+</body>
+</html>
