@@ -44,6 +44,8 @@ function initializePage() {
 // Afficher le formulaire de connexion
 showLoginBtn.addEventListener('click', () => {
     loginSection.style.display = 'block';
+    showLoginBtn.style.display = 'none';
+    showRegisterBtn.style.display = 'block';
     registerSection.style.display = 'none';
     addProductForm.style.display = 'none';
     productListContainer.style.display = 'none';
@@ -52,6 +54,8 @@ showLoginBtn.addEventListener('click', () => {
 // Afficher le formulaire d'inscription
 showRegisterBtn.addEventListener('click', () => {
     registerSection.style.display = 'block';
+    showLoginBtn.style.display = 'block';
+    showRegisterBtn.style.display = 'none';
     loginSection.style.display = 'none';
     addProductForm.style.display = 'none';
     productListContainer.style.display = 'none';
@@ -123,7 +127,7 @@ loginForm.addEventListener('submit', async (event) => {
 async function fetchProducts(filterDate = null) {
     try {
         if (!currentUser) {
-            console.error('Utilisateur non connecté');
+            console.error('Utilisateur connecté');
             return;
         }
 
@@ -171,13 +175,19 @@ async function fetchProducts(filterDate = null) {
             const productList = document.createElement('ul');
             products.forEach(product => {
                 const listItem = document.createElement('li');
-                listItem.textContent = `${product.name} - ${product.quantity} x ${product.price} (Ajouté le ${new Date(product.created_at).toLocaleDateString()})`;
+                listItem.textContent = `${product.name} - ${product.quantity} x ${product.price} Fcfa (Ajouté le ${new Date(product.created_at).toLocaleDateString()})`;
+
+                const purchasedCheckbox = document.createElement('input');
+                purchasedCheckbox.type = 'checkbox';
+                purchasedCheckbox.checked = product.purchased;
+                purchasedCheckbox.dataset.productId = product.id;
 
                 const deleteBtn = document.createElement('button');
                 deleteBtn.textContent = 'Supprimer';
                 deleteBtn.dataset.productId = product.id;
-                listItem.appendChild(deleteBtn);
 
+                listItem.appendChild(purchasedCheckbox);
+                listItem.appendChild(deleteBtn);
                 productList.appendChild(listItem);
             });
 
@@ -188,6 +198,23 @@ async function fetchProducts(filterDate = null) {
         console.error('Erreur lors de la récupération des produits:', error.message);
     }
 }
+
+            productListContainer.addEventListener('change', async (event) => {
+                if (event.target.type === 'checkbox') {
+                    const productId = event.target.dataset.productId;
+                    const purchased = event.target.checked;
+
+                    const { error } = await supabaseClient.from('products').update({ purchased }).eq('id', productId);
+
+                    if (error) {
+                        console.error('Erreur lors de la mise à jour du statut du produit:', error.message);
+                        return;
+                    }
+
+                    fetchProducts(); // Recharger la liste des produits
+                }
+            });
+
 
 // Gestion de l'ajout d'un produit
 addProductForm.addEventListener('submit', async (event) => {
@@ -208,7 +235,13 @@ addProductForm.addEventListener('submit', async (event) => {
     }
 
     const { data, error } = await supabaseClient.from('products').insert([
-        { name: productName, price: productPrice, quantity: productQuantity, user_id: currentUser.id }
+        { 
+            name: productName, 
+            price: productPrice, 
+            quantity: productQuantity, 
+            user_id: currentUser.id,
+            purchased: false // Ajouter ce champ avec la valeur par défaut
+        }
     ]);
 
     if (error) {
@@ -223,6 +256,7 @@ addProductForm.addEventListener('submit', async (event) => {
         console.error('Aucune donnée retournée après l\'ajout du produit.');
     }
 });
+
 
 // Gestion de la suppression d'un produit
 productListContainer.addEventListener('click', async (event) => {
@@ -275,6 +309,12 @@ supabaseClient.auth.onAuthStateChange((event, session) => {
         showLoginBtn.style.display = 'none';
         showRegisterBtn.style.display = 'none';
         logoutBtn.style.display = 'inline';
+        document.getElementById('header-logo-2').style.display = 'none';
+        document.getElementById('header-logo-1').style.display = 'none';
+        document.getElementById('titre').style.display = 'none';
+        document.querySelector('body').classList.add('bg-blue');
+        
+
 
         // Afficher les en-têtes (h2) lors de la connexion
         const addProductHeader = document.querySelector('.add-product-section h2');

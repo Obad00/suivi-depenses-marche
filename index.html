@@ -13,14 +13,18 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            background-color: #304FFE;
+            background-color: white; /* Fond blanc par défaut */
         }
         #loading-screen {
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #304FFE;
+            width: 100%;
+            background-color: #304FFE; /* Bleu pour l'écran de chargement */
+            position: absolute; /* Assurez-vous que l'écran de chargement couvre toute la vue */
+            top: 0;
+            left: 0;
         }
         #loading-screen img {
             width: 200px; /* Ajustez la taille de votre logo ici */
@@ -32,11 +36,110 @@
             align-items: center;
             width: 100%;
             max-width: 600px;
-            background-color: white;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: white; /* Fond blanc pour le contenu principal */
             padding: 20px;
             border-radius: 8px;
+            box-shadow: none; /* Retirer l'ombre */
         }
+        .bg-304FFE {
+            background-color: #304FFE;
+        }
+        .rounded-50 {
+            border-radius: 50px;
+        }
+        .btn-style {
+            display: block;
+            margin-bottom: 10px;
+        }
+        .btn-connexion {
+            background-color: white;
+            border: 2px solid #304FFE;
+            color: #304FFE;
+        }
+        .auth-section {
+            display: flex;
+            flex-direction: column;
+            gap: 10px; /* Espacement entre les boutons */
+            width: 100%;
+        }
+        .auth-section a {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 40px;
+        }
+        .auth-form-section {
+            margin-top: 20px;
+        }
+        .auth-form-section input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .auth-form-section button {
+            width: 100%;
+            padding: 10px;
+            background-color: #304FFE;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        header {
+            text-align: center; /* Centrer le contenu dans l'en-tête */
+        }
+        header img {
+            max-width: 100%; /* Assurez-vous que l'image ne dépasse pas la largeur du conteneur */
+            height: auto;
+        }
+        header h1 {
+            margin-top: 20px; /* Espacement entre l'image et le titre */
+            font-size: 1.5rem; /* Ajustez la taille de la police du titre si nécessaire */
+            text-align: center;
+        }
+
+        /* Style pour les champs de saisie */
+.auth-form-section input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #ffffff; /* Fond bleu */
+    border: 2px solid #304FFE; /* Bordure bleue */
+    color: #304FFE; /* Texte en blanc pour contraste */
+    border-radius: 50px; /* Coins arrondis pour les champs de saisie */
+    box-sizing: border-box; /* Inclure la bordure dans la largeur totale */
+}
+
+.auth-form-section input::placeholder {
+    color: #304FFE; /* Placeholder en blanc pour contraste */
+}
+
+/* Style pour les boutons */
+.auth-form-section button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background-color: #304FFE;
+    color: #ffffff;
+    border-radius: 50px; /* Bord arrondi pour les boutons */
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.auth-form-section button:hover {
+    background-color: #ffffff;
+    color: #304FFE;
+}
+
+.bg-blue {
+    background-color: #304FFE; /* Bleu */
+}
+
+
     </style>
 </head>
 <body>
@@ -46,14 +149,29 @@
 
     <div class="container">
         <header>
-            <h1>Suivi des Dépenses de Courses</h1>
+            <img src="mobile_566886-15040.jpg" alt="Logo supplémentaire" id="header-logo-1">
+            <img src="Group 439.jpg" alt="Logo supplémentaire" id="header-logo-2" style="display: none;">
+            <h1 id="titre">Créez votre <br> compte Sellday</h1>
         </header>
+        
 
         <main>
             <section class="auth-section">
-                <button id="show-login-btn">Connexion</button>
-                <button id="show-register-btn">Inscription</button>
-                <button id="logout-btn" style="display: none;">Déconnexion</button>
+                <a id="show-login-btn" href="#" class="relative flex h-9 items-center justify-center px-8 before:absolute 
+                    before:inset-0 before:rounded-full before:transition before:duration-300 
+                    hover:before:scale-105 active:duration-75 active:before:scale-95 sm:w-max bg-304FFE rounded-50 btn-style btn-connexion">
+                    <span class="relative text-sm font-semibold">Connexion</span>
+                </a>
+                <a id="show-register-btn" href="#" class="relative flex h-9 items-center justify-center px-8 before:absolute 
+                    before:inset-0 before:rounded-full before:bg-304FFE before:transition before:duration-300 
+                    hover:before:scale-105 active:duration-75 active:before:scale-95 sm:w-max bg-304FFE rounded-50 btn-style">
+                    <span class="relative text-sm font-semibold text-white">Inscription</span>
+                </a>
+                <a id="logout-btn" href="#" class="relative flex h-9 items-center justify-center px-8 before:absolute 
+                    before:inset-0 before:rounded-full before:bg-304FFE before:transition before:duration-300 
+                    hover:before:scale-105 active:duration-75 active:before:scale-95 sm:w-max bg-304FFE rounded-50 btn-style" style="display: none;">
+                    <span class="relative text-sm font-semibold text-white">Déconnexion</span>
+                </a>
             </section>
 
             <section id="register-section" class="auth-form-section" style="display: none;">
@@ -64,7 +182,7 @@
                     <button type="submit">S'inscrire</button>
                 </form>
             </section>
-
+            
             <section id="login-section" class="auth-form-section" style="display: none;">
                 <h2>Connexion</h2>
                 <form id="login-form">
@@ -73,8 +191,10 @@
                     <button type="submit">Se connecter</button>
                 </form>
             </section>
+            
 
             <section class="add-product-section">
+                <input type="date" id="filter-date">
                 <h2>Ajouter un Produit</h2>
                 <form id="add-product-form">
                     <input type="text" id="product-name" placeholder="Nom du produit" required>
@@ -86,12 +206,29 @@
 
             <section class="product-list-section">
                 <h2>Liste de Courses</h2>
-                <input type="date" id="filter-date">
                 <ul id="product-list-container"></ul>
                 <p id="no-results-message" style="display: none;">Aucun produit trouvé pour cette date.</p>
             </section>
         </main>
     </div>
+
+    <!-- Formulaire de modification du produit -->
+<div id="edit-product-section" style="display: none;">
+    <h2>Modifier le produit</h2>
+    <form id="edit-product-form">
+        <input type="hidden" id="edit-product-id" />
+        <label for="edit-product-name">Nom:</label>
+        <input type="text" id="edit-product-name" required />
+        <label for="edit-product-price">Prix:</label>
+        <input type="number" id="edit-product-price" step="0.01" required />
+        <label for="edit-product-quantity">Quantité:</label>
+        <input type="number" id="edit-product-quantity" required />
+        <button type="submit">Enregistrer les modifications</button>
+        <button type="button" id="cancel-edit-btn">Annuler</button>
+    </form>
+</div>
+
+
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -107,8 +244,25 @@
                     window.location.href = 'loading.html';
                 }, 5000);
             }
+    
+            // Gestion des clics sur les boutons
+            document.getElementById('show-login-btn').addEventListener('click', function() {
+                document.getElementById('header-logo-1').style.display = 'none';
+                document.getElementById('header-logo-2').style.display = 'block';
+                document.getElementById('titre').style.display = 'none';
+                 
+            });
+    
+            document.getElementById('show-register-btn').addEventListener('click', function() {
+                document.getElementById('header-logo-1').style.display = 'none';
+                document.getElementById('header-logo-2').style.display = 'block';
+                document.getElementById('titre').style.display = 'none';
+
+               
+            });
         });
     </script>
+    
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
     <script src="app.js"></script>
