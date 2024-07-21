@@ -4,58 +4,276 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Suivi des Dépenses de Courses</title>
+    <link rel="stylesheet" href="styles.css">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: white; /* Fond blanc par défaut */
+        }
+       
+        .container {
+            display: flex; /* Changer à flex pour afficher le contenu par défaut */
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            max-width: 600px;
+            padding: 20px;
+            border-radius: 8px;
+        }
         .bg-304FFE {
             background-color: #304FFE;
         }
-
         .rounded-50 {
             border-radius: 50px;
         }
+        .btn-style {
+            display: block;
+            margin-bottom: 10px;
+        }
+        .btn-connexion {
+            background-color: white;
+            border: 2px solid #304FFE;
+            color: #304FFE;
+        }
+        .auth-section {
+            display: flex;
+            flex-direction: column;
+            gap: 10px; /* Espacement entre les boutons */
+            width: 100%;
+        }
+        .auth-section a {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 40px;
+        }
+        .auth-form-section {
+            margin-top: 20px;
+        }
+        .auth-form-section input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .auth-form-section button {
+            width: 100%;
+            padding: 10px;
+            background-color: #304FFE;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        header {
+            text-align: center; /* Centrer le contenu dans l'en-tête */
+        }
+        header img {
+            max-width: 100%; /* Assurez-vous que l'image ne dépasse pas la largeur du conteneur */
+            height: auto;
+        }
+        header h1 {
+            margin-top: 20px; /* Espacement entre l'image et le titre */
+            font-size: 1.5rem; /* Ajustez la taille de la police du titre si nécessaire */
+            text-align: center;
+        }
+
+        /* Style pour les champs de saisie */
+        .auth-form-section input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #ffffff; /* Fond blanc */
+            border: 2px solid #304FFE; /* Bordure bleue */
+            color: #304FFE; /* Texte en bleu */
+            border-radius: 50px; /* Coins arrondis pour les champs de saisie */
+            box-sizing: border-box; /* Inclure la bordure dans la largeur totale */
+        }
+
+        .auth-form-section input::placeholder {
+            color: #304FFE; /* Placeholder en bleu */
+        }
+
+        /* Style pour les boutons */
+        .auth-form-section button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            background-color: #304FFE;
+            color: #ffffff;
+            border-radius: 50px; /* Bord arrondi pour les boutons */
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .auth-form-section button:hover {
+            background-color: #ffffff;
+            color: #304FFE;
+        }
+
+        .bg-blue {
+            background-color: #304FFE; /* Bleu */
+        }
+        .add-product-section,
+        .product-list-section {
+            display: none;
+        }
+
     </style>
 </head>
-<body class="dark:bg-gray-700 p-4 min-h-screen">
-    <div class="relative py-12 overflow-hidden">
-        <div aria-hidden="true" class="absolute inset-0 w-full m-auto grid grid-cols-2 -space-x-52 opacity-20"></div>
-        <div class="max-w-7xl mx-auto px-6 md:px-12 xl:px-6">
-            <div class="relative">
-                <div class="flex flex-col items-center justify-center h-[50vh] px-2 sm:px-0 space-y-6">
-                    <!-- Première image en haut -->
-                    <img src="Send money abroad.png" alt="Description de l'image" class="mx-auto mb-6" /> 
+<body>
+    <div class="container">
+        <header>
+            <img src="mobile_566886-15040.jpg" alt="Logo supplémentaire" id="header-logo-1">
+            <img src="Group 439.jpg" alt="Logo supplémentaire" id="header-logo-2" style="display: none;">
+            <h1 id="titre">Créez votre <br> compte Sellday</h1>
+        </header>
 
-                    <!-- Deuxième image -->
-                    <img src="Slider indicator.jpg" alt="Description de l'image" class="mx-auto mb-6" /> 
+        <main>
+            <section class="auth-section">
+                <a id="show-login-btn" href="#" class="relative flex h-9 items-center justify-center px-8 before:absolute 
+                    before:inset-0 before:rounded-full before:transition before:duration-300 
+                    hover:before:scale-105 active:duration-75 active:before:scale-95 sm:w-max bg-304FFE rounded-50 btn-style btn-connexion">
+                    <span class="relative text-sm font-semibold">Connexion</span>
+                </a>
+                    <a id="show-register-btn" href="#" class="relative flex h-9 items-center justify-center px-8 before:absolute 
+                        before:inset-0 before:rounded-full before:bg-304FFE before:transition before:duration-300 
+                        hover:before:scale-105 active:duration-75 active:before:scale-95 sm:w-max bg-304FFE rounded-50 btn-style">
+                        <span class="relative text-sm font-semibold text-white">Inscription</span>
+                    </a>
+            </section>
+            <button id="logout-btn" style="display: none;">Déconnexion</button>
 
-                    <!-- Contenu centré -->
-                    <div class="space-y-6 w-full sm:w-8/12 md:w-7/12 text-center">
-                        <!-- Titre -->
-                        <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-700 dark:text-white">
-                            Suivez et contrôlez vos achats quotidiens en toute simplicité.
-                        </h1>
-                        
-                       <!-- Bouton pour naviguer vers la page index -->
-                        <div class="flex flex-wrap justify-center gap-4 sm:gap-6">
-                            <a id="next-button" href="index.html" class="relative flex h-9 w-full items-center justify-center px-8 before:absolute 
-                                before:inset-0 before:rounded-full before:bg-304FFE before:transition before:duration-300 
-                                hover:before:scale-105 active:duration-75 active:before:scale-95 sm:w-max bg-304FFE rounded-50">
-                                <span class="relative text-sm font-semibold text-white">
-                                    Suivant
-                                </span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+
+            <section id="register-section" class="auth-form-section" style="display: none;">
+                <h2>Inscription</h2>
+                <form id="register-form">
+                    <input type="email" id="register-email" placeholder="Email" required>
+                    <input type="password" id="register-password" placeholder="Mot de passe" required>
+                    <button type="submit">S'inscrire</button>
+                </form>
+            </section>
+            
+            <section id="login-section" class="auth-form-section" style="display: none;">
+                <h2>Connexion</h2>
+                <form id="login-form">
+                    <input type="email" id="login-email" placeholder="Email" required>
+                    <input type="password" id="login-password" placeholder="Mot de passe" required>
+                    <button type="submit">Se connecter</button>
+                </form>
+            </section>
+            
+       
+            <section class="add-product-section">
+                <input type="date" id="filter-date">
+                <h2>Ajouter un Produit</h2>
+                <form id="add-product-form">
+                    <input type="text" id="product-name" placeholder="Nom du produit" required>
+                    <input type="number" id="product-price" placeholder="Prix" required>
+                    <input type="number" id="product-quantity" placeholder="Quantité" required>
+                    <button type="submit">Ajouter</button>
+                </form>
+            </section>
+
+            <section class="product-list-section">
+                <h2>Liste de Courses</h2>
+                <ul id="product-list-container"></ul>
+                <p id="no-results-message" style="display: none;">Aucun produit trouvé.</p>
+            </section>
+        
+        </main>
     </div>
-
     <script>
-        document.getElementById('next-button').addEventListener('click', function() {
-            // Définit une clé dans le stockage local pour indiquer que l'utilisateur a cliqué sur le bouton
-            localStorage.setItem('redirected', 'true');
-            window.location.href = 'index.html';
+       document.addEventListener('DOMContentLoaded', function() {
+    var showLoginBtn = document.getElementById('show-login-btn');
+    var showRegisterBtn = document.getElementById('show-register-btn');
+    var loginSection = document.getElementById('login-section');
+    var registerSection = document.getElementById('register-section');
+    var addProductSection = document.querySelector('.add-product-section');
+    var productListSection = document.querySelector('.product-list-section');
+    var logoutBtn = document.getElementById('logout-btn'); // Vous devez ajouter ce bouton dans votre HTML
+
+    // Initial display
+    showLoginBtn.style.display = 'block';
+    showRegisterBtn.style.display = 'block';
+    loginSection.style.display = 'none';
+    registerSection.style.display = 'none';
+    addProductSection.style.display = 'none';
+    productListSection.style.display = 'none';
+    logoutBtn.style.display = 'none';
+
+    // Show login section and hide registration section
+    showLoginBtn.addEventListener('click', function() {
+        loginSection.style.display = 'block';
+        registerSection.style.display = 'none';
+        showLoginBtn.style.display = 'none';
+        showRegisterBtn.style.display = 'block';
+        document.getElementById('header-logo-1').style.display = 'none';
+        document.getElementById('header-logo-2').style.display = 'block';
+        document.getElementById('titre').style.display = 'none';
+    });
+
+    // Show registration section and hide login section
+    showRegisterBtn.addEventListener('click', function() {
+        registerSection.style.display = 'block';
+        loginSection.style.display = 'none';
+        showRegisterBtn.style.display = 'none';
+        showLoginBtn.style.display = 'block';
+        document.getElementById('header-logo-1').style.display = 'none';
+        document.getElementById('header-logo-2').style.display = 'block';
+        document.getElementById('titre').style.display = 'none';
+    });
+
+    // Handle authentication state change
+    supabaseClient.auth.onAuthStateChange((event, session) => {
+        if (session) {
+            document.querySelector('.container').classList.add('bg-blue');
+            addProductSection.style.display = 'block';
+            productListSection.style.display = 'block';
+            showLoginBtn.style.display = 'none';
+            showRegisterBtn.style.display = 'none';
+            logoutBtn.style.display = 'inline';
+            document.getElementById('header-logo-1').style.display = 'none';
+            document.getElementById('header-logo-2').style.display = 'none';
+            document.getElementById('titre').style.display = 'none';
+            fetchProducts();
+        } else {
+            initializePage();
+        }
+    });
+
+    function initializePage() {
+        document.querySelector('.container').classList.remove('bg-blue');
+        showLoginBtn.style.display = 'block';
+        showRegisterBtn.style.display = 'block';
+        addProductSection.style.display = 'none';
+        productListSection.style.display = 'none';
+        logoutBtn.style.display = 'none';
+        document.getElementById('header-logo-1').style.display = 'block';
+        document.getElementById('header-logo-2').style.display = 'none';
+        document.getElementById('titre').style.display = 'block';
+    }
+
+    // Ensure you have a logout button and its event
+    document.getElementById('logout-btn').addEventListener('click', function() {
+        supabaseClient.auth.signOut().then(() => {
+            initializePage();
         });
+    });
+});
+
     </script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script src="app.js"></script>
 </body>
 </html>
