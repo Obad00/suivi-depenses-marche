@@ -126,11 +126,7 @@ loginForm.addEventListener('submit', async (event) => {
 // Fonction pour récupérer et afficher les produits depuis Supabase
 async function fetchProducts(filterDate = null) {
     try {
-        if (!currentUser) {
-            console.error('Utilisateur connecté');
-            return;
-        }
-
+        // Remplacez `currentUser.id` par l'ID réel de l'utilisateur connecté
         let query = supabaseClient.from('products').select('*').eq('user_id', currentUser.id);
 
         if (filterDate) {
@@ -148,13 +144,12 @@ async function fetchProducts(filterDate = null) {
             throw error;
         }
 
+        const productListContainer = document.getElementById('product-list-container');
         productListContainer.innerHTML = '';
 
         if (products.length === 0) {
-            noResultsMessage.style.display = 'block';
+            productListContainer.innerHTML = '<p>Aucun produit trouvé.</p>';
             return;
-        } else {
-            noResultsMessage.style.display = 'none';
         }
 
         const groupedProducts = products.reduce((acc, product) => {
@@ -169,13 +164,17 @@ async function fetchProducts(filterDate = null) {
         for (const [date, products] of Object.entries(groupedProducts)) {
             const dateSection = document.createElement('section');
             const dateHeader = document.createElement('h3');
-            dateHeader.textContent = date;
+            const dateLink = document.createElement('a');
+            dateLink.href = `products.html?date=${encodeURIComponent(date)}`;
+            dateLink.textContent = date;
+            dateLink.style.cursor = 'pointer';
+            dateHeader.appendChild(dateLink);
             dateSection.appendChild(dateHeader);
 
             const productList = document.createElement('ul');
             products.forEach(product => {
                 const listItem = document.createElement('li');
-                listItem.textContent = `${product.name} - ${product.quantity} x ${product.price} Fcfa (Ajouté le ${new Date(product.created_at).toLocaleDateString()})`;
+                listItem.textContent = `${product.name} - ${product.quantity} x ${product.price} Fcfa `;
 
                 const purchasedCheckbox = document.createElement('input');
                 purchasedCheckbox.type = 'checkbox';
@@ -198,6 +197,7 @@ async function fetchProducts(filterDate = null) {
         console.error('Erreur lors de la récupération des produits:', error.message);
     }
 }
+
 
             productListContainer.addEventListener('change', async (event) => {
                 if (event.target.type === 'checkbox') {
