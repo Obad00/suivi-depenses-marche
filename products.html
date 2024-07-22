@@ -42,17 +42,22 @@
             }
 
             .fixed-bottom {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            border-top-left-radius: 30px;
-            border-top-right-radius: 30px;
-            background-color: #304FFE; /* Couleur de fond pour le menu */
-            color: white;
-            z-index: 50; /* Assure que le menu est au-dessus du contenu */
-            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2); /* Ombre pour l'effet flottant */
-        }
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    background-color: #304FFE; /* Couleur de fond pour le menu */
+    color: white;
+    z-index: 50; /* Assure que le menu est au-dessus du contenu */
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2); /* Ombre pour l'effet flottant */
+}
+
+.container {
+    padding-bottom: 80px; /* Ajustez cette valeur en fonction de la hauteur de votre menu fixe */
+}
+
 
         .fixed-bottom .icon-container {
             display: flex;
