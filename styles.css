@@ -1,0 +1,114 @@
+        .container {
+            display: flex; /* Changer à flex pour afficher le contenu par défaut */
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            max-width: 600px;
+            padding: 20px;
+            padding-bottom: 80px; /* Ajuster la valeur pour correspondre à la hauteur du menu fixe */
+            border-radius: 8px;
+        }
+
+        .bg-304FFE {
+            background-color: #304FFE;
+        }
+        .rounded-50 {
+            border-radius: 50px;
+        }
+        .btn-style {
+            display: block;
+            margin-bottom: 10px;
+            padding: 10px;
+
+        }
+        .btn-connexion {
+            background-color: white;
+            border: 2px solid #304FFE;
+            color: #304FFE;
+            padding: 10px;
+        }
+        .auth-section {
+            display: flex;
+            flex-direction: column;
+            gap: 10px; /* Espacement entre les boutons */
+            width: 100%;
+            text-align: center;
+        }
+        .auth-section a {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 40px;
+        }
+        .auth-form-section {
+            margin-top: 100px;
+        }
+      
+        .auth-form-section input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            
+        }
+        .auth-form-section button {
+            width: 100%;
+            padding: 10px;
+            background-color: #304FFE;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        header {
+            text-align: center; /* Centrer le contenu dans l'en-tête */
+        }
+        header img {
+            max-width: 100%; /* Assurez-vous que l'image ne dépasse pas la largeur du conteneur */
+            height: auto;
+            margin-top: 70px;
+
+        }
+        header h1 {
+            margin-top: 20px; /* Espacement entre l'image et le titre */
+            font-size: 1.5rem; /* Ajustez la taille de la police du titre si nécessaire */
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Style pour les champs de saisie */
+        .auth-form-section input {
+            width: 100%;
+            padding: 20px;
+            margin-bottom: 10px;
+            background-color: #ffffff; /* Fond blanc */
+            border: 2px solid #304FFE; /* Bordure bleue */
+            color: #304FFE; /* Texte en bleu */
+            border-radius: 50px; /* Coins arrondis pour les champs de saisie */
+            box-sizing: border-box; /* Inclure la bordure dans la largeur totale */
+        }
+
+        .auth-form-section input::placeholder {
+            color: #304FFE; /* Placeholder en bleu */
+        }
+
+        /* Style pour les boutons */
+        .auth-form-section button {
+            width: 100%;
+            padding: 20px;
+            border: none;
+            background-color: #304FFE;
+            color: #ffffff;
+            border-radius: 50px; /* Bord arrondi pour les boutons */
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .auth-form-section button:hover {
+            background-color: #ffffff;
+            color: #304FFE;
+        }

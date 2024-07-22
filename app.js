@@ -123,19 +123,20 @@ loginForm.addEventListener('submit', async (event) => {
     fetchProducts();
 });
 
-// Fonction pour récupérer et afficher les produits depuis Supabase
 async function fetchProducts(filterDate = null) {
     try {
-        // Remplacez `currentUser.id` par l'ID réel de l'utilisateur connecté
+        // Remplacez `currentUser.id` par l'ID utilisateur réel
         let query = supabaseClient.from('products').select('*').eq('user_id', currentUser.id);
 
+        // Vérifiez si une date de filtrage est fournie
         if (filterDate) {
             const startDate = new Date(filterDate);
             startDate.setHours(0, 0, 0, 0);
             const endDate = new Date(filterDate);
             endDate.setHours(23, 59, 59, 999);
 
-            query = query.gte('created_at', startDate.toISOString()).lte('created_at', endDate.toISOString());
+            query = query.or(`planned_date.gte.${startDate.toISOString()},created_at.gte.${startDate.toISOString()}`);
+            query = query.or(`planned_date.lte.${endDate.toISOString()},created_at.lte.${endDate.toISOString()}`);
         }
 
         const { data: products, error } = await query;
@@ -148,72 +149,54 @@ async function fetchProducts(filterDate = null) {
         productListContainer.innerHTML = '';
 
         if (products.length === 0) {
-            productListContainer.innerHTML = '<p>Aucun produit trouvé.</p>';
+            document.getElementById('no-results-message').style.display = 'block';
             return;
         }
 
+        // Grouper les produits par date de planification ou date de création
         const groupedProducts = products.reduce((acc, product) => {
-            const date = new Date(product.created_at).toLocaleDateString();
+            // Utilisez planned_date si disponible, sinon created_at
+            const date = product.planned_date ? new Date(product.planned_date).toLocaleDateString() : new Date(product.created_at).toLocaleDateString();
+
             if (!acc[date]) {
-                acc[date] = [];
+                acc[date] = {
+                    count: 0,
+                    totalPrice: 0
+                };
             }
-            acc[date].push(product);
+
+            acc[date].count += product.quantity;
+            acc[date].totalPrice += product.price * product.quantity;
+
             return acc;
         }, {});
 
-        for (const [date, products] of Object.entries(groupedProducts)) {
-            const dateSection = document.createElement('section');
+        // Afficher les produits groupés
+        for (const [date, data] of Object.entries(groupedProducts)) {
+            const dateSection = document.createElement('li');
+            dateSection.className = 'card'; // Applique le style de carte
+
             const dateHeader = document.createElement('h3');
-            const dateLink = document.createElement('a');
-            dateLink.href = `products.html?date=${encodeURIComponent(date)}`;
-            dateLink.textContent = date;
-            dateLink.style.cursor = 'pointer';
-            dateHeader.appendChild(dateLink);
+            dateHeader.textContent = `${date} - ${data.count} produits - ${data.totalPrice.toFixed(2)} Fcfa`;
             dateSection.appendChild(dateHeader);
 
-            const productList = document.createElement('ul');
-            products.forEach(product => {
-                const listItem = document.createElement('li');
-                listItem.textContent = `${product.name} - ${product.quantity} x ${product.price} Fcfa `;
+            const viewMoreButton = document.createElement('a');
+            viewMoreButton.href = `products.html?date=${encodeURIComponent(date)}`;
+            viewMoreButton.className = 'redirect-btn';
+            viewMoreButton.innerHTML = '<i class="fas fa-arrow-right"></i>';
 
-                // const purchasedCheckbox = document.createElement('input');
-                // purchasedCheckbox.type = 'checkbox';
-                // purchasedCheckbox.checked = product.purchased;
-                // purchasedCheckbox.dataset.productId = product.id;
+            dateSection.appendChild(viewMoreButton);
 
-                // const deleteBtn = document.createElement('button');
-                // deleteBtn.textContent = 'Supprimer';
-                // deleteBtn.dataset.productId = product.id;
-
-                // listItem.appendChild(purchasedCheckbox);
-                // listItem.appendChild(deleteBtn);
-                productList.appendChild(listItem);
-            });
-
-            dateSection.appendChild(productList);
             productListContainer.appendChild(dateSection);
         }
+
+        document.getElementById('no-results-message').style.display = 'none';
+
     } catch (error) {
         console.error('Erreur lors de la récupération des produits:', error.message);
     }
 }
 
-
-            productListContainer.addEventListener('change', async (event) => {
-                if (event.target.type === 'checkbox') {
-                    const productId = event.target.dataset.productId;
-                    const purchased = event.target.checked;
-
-                    const { error } = await supabaseClient.from('products').update({ purchased }).eq('id', productId);
-
-                    if (error) {
-                        console.error('Erreur lors de la mise à jour du statut du produit:', error.message);
-                        return;
-                    }
-
-                    fetchProducts(); // Recharger la liste des produits
-                }
-            });
 
 
 // Gestion de l'ajout d'un produit
@@ -223,8 +206,10 @@ addProductForm.addEventListener('submit', async (event) => {
     const productName = document.getElementById('product-name').value;
     const productPrice = parseFloat(document.getElementById('product-price').value);
     const productQuantity = parseInt(document.getElementById('product-quantity').value);
+    const productPlannedDate = document.getElementById('product-date').value; // Récupération de la date
 
-    if (!productName || isNaN(productPrice) || isNaN(productQuantity)) {
+    // Validation des champs
+    if (!productName || isNaN(productPrice) || isNaN(productQuantity) || !productPlannedDate) {
         alert('Veuillez remplir tous les champs avec des valeurs valides.');
         return;
     }
@@ -234,13 +219,15 @@ addProductForm.addEventListener('submit', async (event) => {
         return;
     }
 
+    // Insérer dans la table 'products' avec la date planifiée
     const { data, error } = await supabaseClient.from('products').insert([
         { 
             name: productName, 
             price: productPrice, 
             quantity: productQuantity, 
             user_id: currentUser.id,
-            purchased: false // Ajouter ce champ avec la valeur par défaut
+            purchased: false, // Champ avec la valeur par défaut
+            planned_date: productPlannedDate // Ajouter la date planifiée
         }
     ]);
 

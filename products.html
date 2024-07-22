@@ -42,21 +42,21 @@
             }
 
             .fixed-bottom {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    border-top-left-radius: 30px;
-    border-top-right-radius: 30px;
-    background-color: #304FFE; /* Couleur de fond pour le menu */
-    color: white;
-    z-index: 50; /* Assure que le menu est au-dessus du contenu */
-    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2); /* Ombre pour l'effet flottant */
-}
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                border-top-left-radius: 30px;
+                border-top-right-radius: 30px;
+                background-color: #304FFE; /* Couleur de fond pour le menu */
+                color: white;
+                z-index: 50; /* Assure que le menu est au-dessus du contenu */
+                box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2); /* Ombre pour l'effet flottant */
+            }
 
-.container {
-    padding-bottom: 80px; /* Ajustez cette valeur en fonction de la hauteur de votre menu fixe */
-}
+            .container {
+                padding-bottom: 80px; /* Ajustez cette valeur en fonction de la hauteur de votre menu fixe */
+            }
 
 
         .fixed-bottom .icon-container {
@@ -76,11 +76,15 @@
         .fixed-bottom .icon-container div i {
             font-size: 24px; /* Taille des icônes */
         }
+
+        .ml {
+            margin-left: 10px;
+        }
     </style>
 </head>
 <body>
     <div class="container mx-auto">
-        <a href="loading.html"><  <span class="ml-1 font-bold text-lg">Retour</span></a>
+        <a class="ml" href="loading.html"><  <span class="ml-1 font-bold text-lg">Retour</span></a>
 
         <header class="my-4">
 
@@ -136,188 +140,189 @@
         const supabaseClient = supabase.createClient('https://grxcjytkisswabnxwzrb.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdyeGNqeXRraXNzd2Fibnh3enJiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjEzMjgzODAsImV4cCI6MjAzNjkwNDM4MH0.5t7sGuaiGuYoChM71yWfwH8bxOwmRRjinoCYvXO9v7U');
 
         document.addEventListener('DOMContentLoaded', async function() {
-            const params = new URLSearchParams(window.location.search);
-            const dateStr = params.get('date');
+    const params = new URLSearchParams(window.location.search);
+    const dateStr = params.get('date');
 
-            if (!dateStr) {
-                console.error('Aucune date spécifiée');
+    if (!dateStr) {
+        console.error('Aucune date spécifiée');
+        return;
+    }
+
+    const dateParts = dateStr.split('/');
+    if (dateParts.length !== 3) {
+        console.error('Format de date invalide');
+        return;
+    }
+
+    // Convertir le format dd/mm/yyyy en yyyy-mm-dd
+    const [day, month, year] = dateParts;
+    const date = `${year}-${month}-${day}`;
+    document.getElementById('date-header').textContent = dateStr;
+
+    const productsList = document.getElementById('product-list-container').querySelector('ul');
+    const btnPurchased = document.getElementById('purchased');
+    const btnNotPurchased = document.getElementById('not-purchased');
+    const totalPriceElement = document.getElementById('total-price');
+
+    async function fetchProducts() {
+        try {
+            const startDate = new Date(date);
+            startDate.setHours(0, 0, 0, 0);
+            const endDate = new Date(date);
+            endDate.setHours(23, 59, 59, 999);
+
+            const { data: products, error } = await supabaseClient
+                .from('products')
+                .select('*')
+                .gte('planned_date', startDate.toISOString())
+                .lte('planned_date', endDate.toISOString());
+
+            if (error) {
+                throw error;
+            }
+
+            productsList.innerHTML = '';
+
+            if (products.length === 0) {
+                productsList.innerHTML = '<p>Aucun produit trouvé.</p>';
+                totalPriceElement.textContent = 'Prix Total: 0 Fcfa';
                 return;
             }
 
-            const dateParts = dateStr.split('/');
-            if (dateParts.length !== 3) {
-                console.error('Format de date invalide');
-                return;
-            }
+            products.forEach(product => {
+                const listItem = document.createElement('li');
+                listItem.className = 'border-b border-black rounded-sm px-4 py-2 flex items-center justify-between';
+                listItem.dataset.purchased = product.purchased;
+                listItem.dataset.id = product.id; // Ajouter l'ID du produit pour la suppression
 
-            // Convertir le format dd/mm/yyyy en yyyy-mm-dd
-            const [day, month, year] = dateParts;
-            const date = `${year}-${month}-${day}`;
-            document.getElementById('date-header').textContent = dateStr;
+                // Calculer le prix total pour chaque produit
+                const productTotalPrice = product.quantity * product.price;
 
-            const productsList = document.getElementById('product-list-container').querySelector('ul');
-            const btnPurchased = document.getElementById('purchased');
-            const btnNotPurchased = document.getElementById('not-purchased');
-            const totalPriceElement = document.getElementById('total-price');
+                listItem.innerHTML = `
+                    <span class="flex-1">${product.name} - ${product.quantity} x ${product.price} Fcfa</span>
+                    <div class="flex items-center space-x-2">
+                        <span class="product-price">${productTotalPrice} Fcfa</span>
 
-            async function fetchProducts() {
-                try {
-                    const startDate = new Date(date);
-                    startDate.setHours(0, 0, 0, 0);
-                    const endDate = new Date(date);
-                    endDate.setHours(23, 59, 59, 999);
+                        <button class="text-black-500 hover:text-blue-700" aria-label="Modifier le statut">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l1 5h11l1-5h2M3 3l1 5h11l1-5H3zm0 0L5 21h14l2-13H5L3 3zm0 0l1 5h11l1-5H5zm11 8h2v6h-2v-6zm-6 0h2v6H8v-6z"></path>
+                            </svg>
+                        </button>
+                        <button class="text-red-500 hover:text-red-700" aria-label="Supprimer">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                `;
+                productsList.appendChild(listItem);
+            });
 
-                    const { data: products, error } = await supabaseClient
-                        .from('products')
-                        .select('*')
-                        .gte('created_at', startDate.toISOString())
-                        .lte('created_at', endDate.toISOString());
+            // Mettre à jour le prix total
+            updateTotalPrice();
 
-                    if (error) {
-                        throw error;
-                    }
+            // Ajouter les gestionnaires d'événements
+            addEventListeners();
+        } catch (error) {
+            console.error('Erreur lors de la récupération des produits:', error.message);
+        }
+    }
 
-                    productsList.innerHTML = '';
+    function addEventListeners() {
+        // Ajouter les gestionnaires d'événements pour les icônes
+        document.querySelectorAll('button[aria-label="Modifier le statut"]').forEach(button => {
+            button.addEventListener('click', async function(event) {
+                const listItem = event.target.closest('li');
+                const id = listItem.dataset.id;
+                const isPurchased = listItem.dataset.purchased === 'true';
 
-                    if (products.length === 0) {
-                        productsList.innerHTML = '<p>Aucun produit trouvé.</p>';
-                        totalPriceElement.textContent = 'Prix Total: 0 Fcfa';
-                        return;
-                    }
+                // Modifier le statut du produit
+                const { error } = await supabaseClient
+                    .from('products')
+                    .update({ purchased: !isPurchased })
+                    .eq('id', id);
 
-                    products.forEach(product => {
-                        const listItem = document.createElement('li');
-                        listItem.className = 'border-b border-black rounded-sm px-4 py-2 flex items-center justify-between';
-                        listItem.dataset.purchased = product.purchased;
-                        listItem.dataset.id = product.id; // Ajouter l'ID du produit pour la suppression
-
-                        // Calculer le prix total pour chaque produit
-                        const productTotalPrice = product.quantity * product.price;
-
-                        listItem.innerHTML = `
-                            <span class="flex-1">${product.name} - ${product.quantity} x ${product.price} Fcfa</span>
-                            <div class="flex items-center space-x-2">
-                                <span class="product-price">${productTotalPrice} Fcfa</span>
-
-                                <button class="text-black-500 hover:text-blue-700" aria-label="Modifier le statut">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l1 5h11l1-5h2M3 3l1 5h11l1-5H3zm0 0L5 21h14l2-13H5L3 3zm0 0l1 5h11l1-5H5zm11 8h2v6h-2v-6zm-6 0h2v6H8v-6z"></path>
-                                    </svg>
-                                </button>
-                                <button class="text-red-500 hover:text-red-700" aria-label="Supprimer">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                                    </svg>
-                                </button>
-                            </div>
-                        `;
-                        productsList.appendChild(listItem);
-                    });
-
-                    // Mettre à jour le prix total
-                    updateTotalPrice();
-
-                    // Ajouter les gestionnaires d'événements
-                    addEventListeners();
-                } catch (error) {
-                    console.error('Erreur lors de la récupération des produits:', error.message);
+                if (error) {
+                    console.error('Erreur lors de la mise à jour du produit:', error.message);
+                    return;
                 }
-            }
 
-            function addEventListeners() {
-                // Ajouter les gestionnaires d'événements pour les icônes
-                document.querySelectorAll('button[aria-label="Modifier le statut"]').forEach(button => {
-                    button.addEventListener('click', async function(event) {
-                        const listItem = event.target.closest('li');
-                        const id = listItem.dataset.id;
-                        const isPurchased = listItem.dataset.purchased === 'true';
+                // Mettre à jour l'affichage
+                listItem.dataset.purchased = !isPurchased;
+                listItem.style.display = isPurchased ? 'none' : 'flex';
 
-                        // Modifier le statut du produit
-                        const { error } = await supabaseClient
-                            .from('products')
-                            .update({ purchased: !isPurchased })
-                            .eq('id', id);
-
-                        if (error) {
-                            console.error('Erreur lors de la mise à jour du produit:', error.message);
-                            return;
-                        }
-
-                        // Mettre à jour l'affichage
-                        listItem.dataset.purchased = !isPurchased;
-                        listItem.style.display = isPurchased ? 'none' : 'flex';
-
-                        // Recalculer le prix total
-                        updateTotalPrice();
-                    });
-                });
-
-                document.querySelectorAll('button[aria-label="Supprimer"]').forEach(button => {
-                    button.addEventListener('click', async function(event) {
-                        const listItem = event.target.closest('li');
-                        const id = listItem.dataset.id;
-
-                        // Supprimer le produit
-                        const { error } = await supabaseClient
-                            .from('products')
-                            .delete()
-                            .eq('id', id);
-
-                        if (error) {
-                            console.error('Erreur lors de la suppression du produit:', error.message);
-                            return;
-                        }
-
-                        // Retirer l'élément de la liste
-                        listItem.remove();
-
-                        // Recalculer le prix total
-                        updateTotalPrice();
-                    });
-                });
-
-                                // Ajouter les gestionnaires d'événements pour les boutons d'affichage
-                    btnPurchased.addEventListener('click', function() {
-                        document.querySelectorAll('li').forEach(item => {
-                            if (item.dataset.purchased === 'true') {
-                                item.style.display = 'flex';
-                                item.classList.add('background-purchased');
-                                item.classList.remove('background-not-purchased');
-                            } else {
-                                item.style.display = 'none';
-                            }
-                        });
-                        updateTotalPrice(); // Mettre à jour le prix total après filtrage
-                    });
-
-                    btnNotPurchased.addEventListener('click', function() {
-                        document.querySelectorAll('li').forEach(item => {
-                            if (item.dataset.purchased === 'false') {
-                                item.style.display = 'flex';
-                                item.classList.add('background-not-purchased');
-                                item.classList.remove('background-purchased');
-                            } else {
-                                item.style.display = 'none';
-                            }
-                        });
-                        updateTotalPrice(); // Mettre à jour le prix total après filtrage
-                    });
-            }
-
-            function updateTotalPrice() {
-                let totalPrice = 0;
-                document.querySelectorAll('li').forEach(item => {
-                    if (item.style.display !== 'none') {
-                        const price = parseFloat(item.querySelector('.product-price').textContent.replace(' Fcfa', ''));
-                        totalPrice += price;
-                    }
-                });
-                totalPriceElement.textContent = `Prix Total: ${totalPrice} Fcfa`;
-            }
-
-            // Initialiser la liste des produits
-            fetchProducts();
+                // Recalculer le prix total
+                updateTotalPrice();
+            });
         });
+
+        document.querySelectorAll('button[aria-label="Supprimer"]').forEach(button => {
+            button.addEventListener('click', async function(event) {
+                const listItem = event.target.closest('li');
+                const id = listItem.dataset.id;
+
+                // Supprimer le produit
+                const { error } = await supabaseClient
+                    .from('products')
+                    .delete()
+                    .eq('id', id);
+
+                if (error) {
+                    console.error('Erreur lors de la suppression du produit:', error.message);
+                    return;
+                }
+
+                // Retirer l'élément de la liste
+                listItem.remove();
+
+                // Recalculer le prix total
+                updateTotalPrice();
+            });
+        });
+
+        // Ajouter les gestionnaires d'événements pour les boutons d'affichage
+        btnPurchased.addEventListener('click', function() {
+            document.querySelectorAll('li').forEach(item => {
+                if (item.dataset.purchased === 'true') {
+                    item.style.display = 'flex';
+                    item.classList.add('background-purchased');
+                    item.classList.remove('background-not-purchased');
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+            updateTotalPrice(); // Mettre à jour le prix total après filtrage
+        });
+
+        btnNotPurchased.addEventListener('click', function() {
+            document.querySelectorAll('li').forEach(item => {
+                if (item.dataset.purchased === 'false') {
+                    item.style.display = 'flex';
+                    item.classList.add('background-not-purchased');
+                    item.classList.remove('background-purchased');
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+            updateTotalPrice(); // Mettre à jour le prix total après filtrage
+        });
+    }
+
+    function updateTotalPrice() {
+        let totalPrice = 0;
+        document.querySelectorAll('li').forEach(item => {
+            if (item.style.display !== 'none') {
+                const price = parseFloat(item.querySelector('.product-price').textContent.replace(' Fcfa', ''));
+                totalPrice += price;
+            }
+        });
+        totalPriceElement.textContent = `Prix Total: ${totalPrice} Fcfa`;
+    }
+
+    // Initialiser la liste des produits
+    fetchProducts();
+});
+
     </script>
 </body>
 </html>

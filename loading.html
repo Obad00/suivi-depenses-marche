@@ -7,270 +7,172 @@
     <link rel="stylesheet" href="styles.css">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
     <style>
         body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
             overflow-y: hidden;
             overflow-x: hidden;
-            background-color: white; /* Fond blanc par défaut */
+            font-family: Arial, sans-serif; /* Définit la police par défaut */
         }
-       
-        .container {
-    display: flex; /* Changer à flex pour afficher le contenu par défaut */
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    max-width: 600px;
-    padding: 20px;
-    padding-bottom: 80px; /* Ajuster la valeur pour correspondre à la hauteur du menu fixe */
-    border-radius: 8px;
-}
+    
+      
+    
+      
 
-        .bg-304FFE {
-            background-color: #304FFE;
+        .animated-background {
+            background: #f0f4f8; 
+            border: 5px solid #F8B319; 
+            border-top-left-radius: 100%;
+            border-top-right-radius: 100%;
+            padding: 20px; 
+            width: 700px; 
+            height: 900px;
+            overflow: auto; 
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Ajoute une ombre portée */
+            margin: 0 auto; /* Centre le conteneur */
         }
-        .rounded-50 {
-            border-radius: 50px;
-        }
-        .btn-style {
-            display: block;
-            margin-bottom: 10px;
-        }
-        .btn-connexion {
-            background-color: white;
-            border: 2px solid #304FFE;
-            color: #304FFE;
-        }
-        .auth-section {
-            display: flex;
-            flex-direction: column;
-            gap: 10px; /* Espacement entre les boutons */
-            width: 100%;
-        }
-        .auth-section a {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 40px;
-        }
-        .auth-form-section {
-            margin-top: 20px;
-        }
-        .auth-form-section input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-        .auth-form-section button {
-            width: 100%;
-            padding: 10px;
-            background-color: #304FFE;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        header {
-            text-align: center; /* Centrer le contenu dans l'en-tête */
-        }
-        header img {
-            max-width: 100%; /* Assurez-vous que l'image ne dépasse pas la largeur du conteneur */
-            height: auto;
-        }
-        header h1 {
-            margin-top: 20px; /* Espacement entre l'image et le titre */
-            font-size: 1.5rem; /* Ajustez la taille de la police du titre si nécessaire */
-            text-align: center;
-        }
-
-        /* Style pour les champs de saisie */
-        .auth-form-section input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            background-color: #ffffff; /* Fond blanc */
-            border: 2px solid #304FFE; /* Bordure bleue */
-            color: #304FFE; /* Texte en bleu */
-            border-radius: 50px; /* Coins arrondis pour les champs de saisie */
-            box-sizing: border-box; /* Inclure la bordure dans la largeur totale */
-        }
-
-        .auth-form-section input::placeholder {
-            color: #304FFE; /* Placeholder en bleu */
-        }
-
-        /* Style pour les boutons */
-        .auth-form-section button {
-            width: 100%;
-            padding: 10px;
-            border: none;
-            background-color: #304FFE;
-            color: #ffffff;
-            border-radius: 50px; /* Bord arrondi pour les boutons */
-            text-align: center;
-            cursor: pointer;
-            transition: background-color 0.3s, color 0.3s;
-        }
-
-        .auth-form-section button:hover {
+    
+        .bg-white {
             background-color: #ffffff;
-            color: #304FFE;
         }
-
+    
         .bg-blue {
-            background-color: #304FFE; /* Bleu */
+            background-color: #304FFE; 
         }
-        .add-product-section,
+    
+        .add-product-section {
+            padding: 90px;
+            border-radius: 10px; /* Coins arrondis pour la section */
+            background: #ffffff; /* Fond blanc pour la section */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Ombre légère */
+        }
+
+        .add-product-section h2{
+            text-align: center;
+            color: #000000;
+            margin-bottom: 50px;
+            font-size: 30px;
+        }
+    
+        .form {
+                display: flex;
+                flex-direction: column;
+                gap: 15px; /* Espacement entre les lignes du formulaire */
+            }
+
+            .one, .two {
+                display: flex;
+                gap: 20px; /* Espacement entre les éléments dans la ligne */
+            }
+
+            .one input, .two input, .two button {
+                padding: 10px;
+                border: 2px solid #ccc;
+                border-radius: 50px;
+                font-size: 16px;
+                width: 100%; /* Occupe toute la largeur disponible */
+                box-sizing: border-box; /* Inclut padding et bordure dans la largeur totale */
+            }
+
+            .two {
+                display: flex;
+                gap: 20px;
+                margin-top: 20px;
+            }
+
+            .two input, .two button {
+                flex: 1; /* Répartit l'espace également */
+            }
+
+            .two button {
+                background-color: #F8B319;
+                color: white;
+                border: none;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+            }
+
+            .two button:hover {
+                background-color: #F8A900; /* Change la couleur au survol */
+            }
         .product-list-section {
-            display: none;
+            margin-top: 10px;
+            padding: 100px;
+        }
+    
+        .product-list-section h2 {
+            color: #000000;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+    
+        #product-list-container {
+            list-style: none;
+            padding: 0;
+        }
+    
+        #product-list-container li {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+    
+        #no-results-message {
+            color: #999;
+            font-style: italic;
         }
 
-            
-
-.add-product-section,
-.product-list-section {
-    background-color: #ffffff; /* White background for sections */
-    border-radius: 10px; /* Rounded corners */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for better visual separation */
-    padding: 100px; /* Padding inside the sections */
-    margin-bottom: 20px; /* Space between sections */
-   
-}
-
-.add-product-section h2,
-.product-list-section h2 {
-    font-size: 1.5rem; /* Larger font size for section headers */
-    margin-bottom: 10px; /* Space below headers */
-    color: #000000; /* Color for the section headers */
-}
-
-.add-product-section input,
-.add-product-section button {
-    margin-bottom: 10px; /* Space between form elements */
-}
-
-.add-product-section input {
-    width: calc(100% - 20px); /* Full width minus padding */
-    padding: 10px; /* Padding inside input fields */
-    border: 2px solid #304FFE; /* Border color */
-    border-radius: 50px; /* Rounded corners for input fields */
-    box-sizing: border-box; /* Include border in width calculation */
-}
-
-.add-product-section button {
-    width: 100%; /* Full-width button */
-    padding: 10px; /* Padding inside button */
-    border: none; /* Remove default border */
-    background-color: #F8B319; /* Background color */
-    color: white; /* Text color */
-    border-radius: 50px; /* Rounded corners */
-    cursor: pointer; /* Pointer cursor on hover */
-    transition: background-color 0.3s, color 0.3s; /* Smooth transition on hover */
-}
-
-.add-product-section button:hover {
-    background-color: white; /* Button background on hover */
-    color: #304FFE; /* Button text color on hover */
-}
-
-.product-list-section ul {
-    list-style-type: none; /* Remove default list styling */
-    padding: 0; /* Remove default padding */
-}
-
-.product-list-section ul li {
-    background-color: #f9f9f9; /* Light background for list items */
-    border: 1px solid #ddd; /* Border color */
-    border-radius: 5px; /* Rounded corners */
-    padding: 10px; /* Padding inside list items */
-    margin-bottom: 10px; /* Space between list items */
-}
-
-.product-list-section p {
-    text-align: center; 
-    color: #888; 
-}
-.animated-background {
-    background: #f0f4f8; 
-    border: 5px solid #F8B319; 
-    border-radius: 20px; 
-    padding: 25px; 
-    width: 700px; 
-    height: 900px;
-    overflow: auto; 
-    border-radius: 50%;
-    margin-top: 85%;
-    /* position: relative; */
-
-}
-
-.one {
-    display: flex;
-}
-
-.two {
-    display: flex;
-}
-
-.fixed-bottom {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            border-top-left-radius: 30px;
-            border-top-right-radius: 30px;
-            background-color: #304FFE; /* Couleur de fond pour le menu */
-            color: white;
-            z-index: 50; /* Assure que le menu est au-dessus du contenu */
-            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2); /* Ombre pour l'effet flottant */
+        .accueil {
+            text-align: center;
+            color: #ffffff;
+            margin-bottom: 10px;
         }
 
-        .fixed-bottom .icon-container {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
+        .search {
+            color: #000000;
+            border-radius: 50px;
             padding: 10px;
         }
 
-        .fixed-bottom .icon-container div {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            cursor: pointer;
+        .ser {
+            padding-left: 270px;  
+            margin-bottom: 15px;
         }
 
-        .fixed-bottom .icon-container div i {
-            font-size: 24px; /* Taille des icônes */
-        }
-        @media(min-width: 768px)
-        {
-            .animated-background {
-    background: #f0f4f8; 
-    border: 5px solid #F8B319; 
-    border-radius: 20px; 
-    padding: 90px; 
-    width: 1600px; 
-    height: 900px;
-    overflow: 0; 
-    border-radius: 90%;
-    margin-top: 30%;
-    /* position: relative; */
-
+        .fixed-bottom {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    background-color: #304FFE; /* Couleur de fond pour le menu */
+    color: white;
+    padding-top: 10px;
+    z-index: 50; /* Assure que le menu est au-dessus du contenu */
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2); /* Ombre pour l'effet flottant */
 }
-        }
 
+.fixed-bottom .icon-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px;
+}
+
+.fixed-bottom .icon-container div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+}
+
+.fixed-bottom .icon-container div i {
+    font-size: 24px; /* Taille des icônes */
+}
     </style>
+
 </head>
 <body>
+    
     <div class="container">
         <header>
             <img src="mobile_566886-15040.jpg" alt="Logo supplémentaire" id="header-logo-1">
@@ -294,48 +196,109 @@
 
 
             <section id="register-section" class="auth-form-section" style="display: none;">
-                <h2>Inscription</h2>
                 <form id="register-form">
                     <input type="email" id="register-email" placeholder="Email" required>
                     <input type="password" id="register-password" placeholder="Mot de passe" required>
                     <button type="submit">S'inscrire</button>
                 </form>
+                <div class="my-12 border-b text-center">
+                    <div
+                        class="leading-none px-2 inline-block text-sm text-gray-600 tracking-wide font-medium bg-white transform translate-y-1/2">
+                        Ou se connecter auprès de
+                    </div>
+                </div>
+
+                <div class="flex flex-col items-center">
+                    <button
+                        class="w-full max-w-xs font-bold shadow-sm rounded-lg py-3 bg-green-100 text-gray-800 flex items-center justify-center transition-all duration-300 ease-in-out focus:outline-none hover:shadow focus:shadow-sm focus:shadow-outline">
+                        <div class="bg-white p-2 rounded-full">
+                            <svg class="w-4" viewBox="0 0 533.5 544.3">
+                                <path
+                                    d="M533.5 278.4c0-18.5-1.5-37.1-4.7-55.3H272.1v104.8h147c-6.1 33.8-25.7 63.7-54.4 82.7v68h87.7c51.5-47.4 81.1-117.4 81.1-200.2z"
+                                    fill="#4285f4" />
+                                <path
+                                    d="M272.1 544.3c73.4 0 135.3-24.1 180.4-65.7l-87.7-68c-24.4 16.6-55.9 26-92.6 26-71 0-131.2-47.9-152.8-112.3H28.9v70.1c46.2 91.9 140.3 149.9 243.2 149.9z"
+                                    fill="#34a853" />
+                                <path
+                                    d="M119.3 324.3c-11.4-33.8-11.4-70.4 0-104.2V150H28.9c-38.6 76.9-38.6 167.5 0 244.4l90.4-70.1z"
+                                    fill="#fbbc04" />
+                                <path
+                                    d="M272.1 107.7c38.8-.6 76.3 14 104.4 40.8l77.7-77.7C405 24.6 339.7-.8 272.1 0 169.2 0 75.1 58 28.9 150l90.4 70.1c21.5-64.5 81.8-112.4 152.8-112.4z"
+                                    fill="#ea4335" />
+                            </svg>
+                        </div>
+                        <span class="ml-4">
+                            Google
+                        </span>
+                    </button>
+                </div>
             </section>
             
             <section id="login-section" class="auth-form-section" style="display: none;">
-                <h2>Connexion</h2>
                 <form id="login-form">
                     <input type="email" id="login-email" placeholder="Email" required>
                     <input type="password" id="login-password" placeholder="Mot de passe" required>
                     <button type="submit">Se connecter</button>
                 </form>
+                <div class="my-12 border-b text-center">
+                    <div
+                        class="leading-none px-2 inline-block text-sm text-gray-600 tracking-wide font-medium bg-white transform translate-y-1/2">
+                        Ou s'inscrire auprès de
+                    </div>
+                </div>
+
+                <div class="flex flex-col items-center">
+                    <button
+                        class="w-full max-w-xs font-bold shadow-sm rounded-lg py-3 bg-green-100 text-gray-800 flex items-center justify-center transition-all duration-300 ease-in-out focus:outline-none hover:shadow focus:shadow-sm focus:shadow-outline">
+                        <div class="bg-white p-2 rounded-full">
+                            <svg class="w-4" viewBox="0 0 533.5 544.3">
+                                <path
+                                    d="M533.5 278.4c0-18.5-1.5-37.1-4.7-55.3H272.1v104.8h147c-6.1 33.8-25.7 63.7-54.4 82.7v68h87.7c51.5-47.4 81.1-117.4 81.1-200.2z"
+                                    fill="#4285f4" />
+                                <path
+                                    d="M272.1 544.3c73.4 0 135.3-24.1 180.4-65.7l-87.7-68c-24.4 16.6-55.9 26-92.6 26-71 0-131.2-47.9-152.8-112.3H28.9v70.1c46.2 91.9 140.3 149.9 243.2 149.9z"
+                                    fill="#34a853" />
+                                <path
+                                    d="M119.3 324.3c-11.4-33.8-11.4-70.4 0-104.2V150H28.9c-38.6 76.9-38.6 167.5 0 244.4l90.4-70.1z"
+                                    fill="#fbbc04" />
+                                <path
+                                    d="M272.1 107.7c38.8-.6 76.3 14 104.4 40.8l77.7-77.7C405 24.6 339.7-.8 272.1 0 169.2 0 75.1 58 28.9 150l90.4 70.1c21.5-64.5 81.8-112.4 152.8-112.4z"
+                                    fill="#ea4335" />
+                            </svg>
+                        </div>
+                        <span class="ml-4">
+                            Google
+                        </span>
+                    </button>
+                </div>
             </section>
             
+           
             
 
          <div>
-               <!-- <input class="search" type="date" id="filter-date"> -->
+            <div class="ser">
+                <input class="search" type="date" id="filter-date">
+            </div>
+               <div class="accueil">
+               <button id="logout-btn" style="display: none;">Déconnexion</button>
+               </div>
+
             
-            <div class="w-screen animated-background h-screen bg-white rounded-20 p-2" id="home">
-
-                <section class="add-product-section"> 
-                    <input class="search" type="date" id="filter-date">
-
-                    <button id="logout-btn" style="display: none;">Déconnexion</button>
-           
+               <div class="animated-background  bg-white rounded-20 p-2" id="home">
+                <section class="add-product-section">            
                     <h2>Ajouter un Produit</h2>
                     <form class="form" id="add-product-form">
-                        <div class="one" style="gap: 20px; margin-bottom: 20px;">
+                        <div class="one">
                             <input type="text" id="product-name" placeholder="Nom du produit" required>
                             <input type="number" id="product-price" placeholder="Prix" required>
                             <input type="date" id="product-date" required> <!-- Champ pour la date -->
                         </div>
-                        <div class="two" style="gap: 20px;">
+                        <div class="two">
                             <input type="number" id="product-quantity" placeholder="Quantité" required>
                             <button type="submit">Ajouter</button>
                         </div>
                     </form>
-                    
                 </section>
             
                 <section class="product-list-section">
@@ -343,122 +306,125 @@
                     <ul id="product-list-container"></ul>
                     <p id="no-results-message" style="display: none;">Aucun produit trouvé.</p>
                 </section>
-
-                 <!-- Menu fixe en bas -->
-    <div class="fixed-bottom">
-        <div class="icon-container">
-            <div>
-                <i class="fas fa-home"></i> <!-- Icône Accueil -->
-                <span>Accueil</span>
             </div>
-            <div>
-                <i class="fas fa-dollar-sign"></i> <!-- Icône Dépense -->
-                <span>Dépense</span>
-            </div>
-            <div>
-                <i class="fas fa-history"></i> <!-- Icône Historique -->
-                <span>Historique</span>
-            </div>
-            <div>
-                <i class="fas fa-user"></i> <!-- Icône Profil -->
-                <span>Profil</span>
-            </div>
-        </div>
-    </div>
-
-            </div>
-         </div>
             
-        
-        </main>
-    </div>
-    <script>
-       document.addEventListener('DOMContentLoaded', function() {
-    var showLoginBtn = document.getElementById('show-login-btn');
-    var showRegisterBtn = document.getElementById('show-register-btn');
-    var loginSection = document.getElementById('login-section');
-    var registerSection = document.getElementById('register-section');
-    var addProductSection = document.querySelector('.add-product-section');
-    var productListSection = document.querySelector('.product-list-section');
-    var logoutBtn = document.getElementById('logout-btn'); 
-    var home = document.getElementById('home');
+
+        </div>
+                         <!-- Menu fixe en bas -->
+                         <div class="fixed-bottom" id="menu">
+                           <div class="icon-container">
+                               <div>
+                                   <i class="fas fa-home"></i> <!-- Icône Accueil -->
+                                   <span>Accueil</span>
+                               </div>
+                               <div>
+                                   <i class="fas fa-dollar-sign"></i> <!-- Icône Dépense -->
+                                   <span>Dépense</span>
+                               </div>
+                               <div>
+                                   <i class="fas fa-history"></i> <!-- Icône Historique -->
+                                   <span>Historique</span>
+                               </div>
+                               <div>
+                                   <i class="fas fa-user"></i> <!-- Icône Profil -->
+                                   <span>Profil</span>
+                               </div>
+                           </div>
+                       </div>
+       
+       </main>
+   </div>
+
+   <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                var showLoginBtn = document.getElementById('show-login-btn');
+                var showRegisterBtn = document.getElementById('show-register-btn');
+                var loginSection = document.getElementById('login-section');
+                var registerSection = document.getElementById('register-section');
+                var addProductSection = document.querySelector('.add-product-section');
+                var productListSection = document.querySelector('.product-list-section');
+                var logoutBtn = document.getElementById('logout-btn'); 
+                var home = document.getElementById('home');
+                var menu = document.getElementById('menu');
 
 
-    // Initial display
-    showLoginBtn.style.display = 'block';
-    showRegisterBtn.style.display = 'block';
-    loginSection.style.display = 'none';
-    registerSection.style.display = 'none';
-    addProductSection.style.display = 'none';
-    productListSection.style.display = 'none';
-    logoutBtn.style.display = 'none';
-    home.style.display = 'none';
+                // Initial display
+                showLoginBtn.style.display = 'block';
+                showRegisterBtn.style.display = 'block';
+                loginSection.style.display = 'none';
+                registerSection.style.display = 'none';
+                addProductSection.style.display = 'none';
+                productListSection.style.display = 'none';
+                logoutBtn.style.display = 'none';
+                home.style.display = 'none';
+                menu.style.display = 'none';
 
-    // Show login section and hide registration section
-    showLoginBtn.addEventListener('click', function() {
-        loginSection.style.display = 'block';
-        registerSection.style.display = 'none';
-        showLoginBtn.style.display = 'none';
-        showRegisterBtn.style.display = 'block';
-        document.getElementById('header-logo-1').style.display = 'none';
-        document.getElementById('header-logo-2').style.display = 'block';
-        document.getElementById('titre').style.display = 'none';
-    });
+                // Show login section and hide registration section
+                showLoginBtn.addEventListener('click', function() {
+                    loginSection.style.display = 'block';
+                    registerSection.style.display = 'none';
+                    showLoginBtn.style.display = 'none';
+                    showRegisterBtn.style.display = 'block';
+                    document.getElementById('header-logo-1').style.display = 'none';
+                    document.getElementById('header-logo-2').style.display = 'block';
+                    document.getElementById('titre').style.display = 'none';
+                });
 
-    // Show registration section and hide login section
-    showRegisterBtn.addEventListener('click', function() {
-        registerSection.style.display = 'block';
-        loginSection.style.display = 'none';
-        showRegisterBtn.style.display = 'none';
-        showLoginBtn.style.display = 'block';
-        document.getElementById('header-logo-1').style.display = 'none';
-        document.getElementById('header-logo-2').style.display = 'block';
-        document.getElementById('titre').style.display = 'none';
-    });
+                // Show registration section and hide login section
+                showRegisterBtn.addEventListener('click', function() {
+                    registerSection.style.display = 'block';
+                    loginSection.style.display = 'none';
+                    showRegisterBtn.style.display = 'none';
+                    showLoginBtn.style.display = 'block';
+                    document.getElementById('header-logo-1').style.display = 'none';
+                    document.getElementById('header-logo-2').style.display = 'block';
+                    document.getElementById('titre').style.display = 'none';
+                });
 
-    // Handle authentication state change
-    supabaseClient.auth.onAuthStateChange((event, session) => {
-        if (session) {
-            document.querySelector('.container').classList.add('bg-blue');
-            addProductSection.style.display = 'block';
-            productListSection.style.display = 'block';
-            showLoginBtn.style.display = 'none';
-            showRegisterBtn.style.display = 'none';
-            home.style.display = 'block';
-            logoutBtn.style.display = 'inline';
-            document.getElementById('header-logo-1').style.display = 'none';
-            document.getElementById('header-logo-2').style.display = 'none';
-            document.getElementById('titre').style.display = 'none';
-            fetchProducts();
-        } else {
-            initializePage();
-        }
-    });
+                // Handle authentication state change
+                supabaseClient.auth.onAuthStateChange((event, session) => {
+                    if (session) {
+                        document.querySelector('.container').classList.add('bg-blue');
+                        addProductSection.style.display = 'block';
+                        productListSection.style.display = 'block';
+                        showLoginBtn.style.display = 'none';
+                        showRegisterBtn.style.display = 'none';
+                        home.style.display = 'block';
+                        menu.style.display = 'block';
+                        logoutBtn.style.display = 'inline';
+                        document.getElementById('header-logo-1').style.display = 'none';
+                        document.getElementById('header-logo-2').style.display = 'none';
+                        document.getElementById('titre').style.display = 'none';
+                        fetchProducts();
+                    } else {
+                        initializePage();
+                    }
+                });
 
-    function initializePage() {
-        document.querySelector('.container').classList.remove('bg-blue');
-        showLoginBtn.style.display = 'block';
-        showRegisterBtn.style.display = 'block';
-        addProductSection.style.display = 'none';
-        productListSection.style.display = 'none';
-        home.style.display = 'none';
-        logoutBtn.style.display = 'none';
-        document.getElementById('header-logo-1').style.display = 'block';
-        document.getElementById('header-logo-2').style.display = 'none';
-        document.getElementById('titre').style.display = 'block';
-    }
+                function initializePage() {
+                    // document.querySelector('.container').classList.remove('bg-blue');
+                    showLoginBtn.style.display = 'block';
+                    showRegisterBtn.style.display = 'block';
+                    addProductSection.style.display = 'none';
+                    productListSection.style.display = 'none';
+                    home.style.display = 'none';
+                    logoutBtn.style.display = 'none';
+                    document.getElementById('header-logo-1').style.display = 'block';
+                    document.getElementById('header-logo-2').style.display = 'none';
+                    document.getElementById('titre').style.display = 'block';
+                }
 
-    // Ensure you have a logout button and its event
-    document.getElementById('logout-btn').addEventListener('click', function() {
-        supabaseClient.auth.signOut().then(() => {
-            initializePage();
-        });
-    });
-});
+                // Ensure you have a logout button and its event
+                document.getElementById('logout-btn').addEventListener('click', function() {
+                    supabaseClient.auth.signOut().then(() => {
+                        initializePage();
+                    });
+                });
+                });
 
-    </script>
-    
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-    <script src="app.js"></script>
+ </script>
+ 
+ <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+ <script src="app.js"></script>
 </body>
 </html>
