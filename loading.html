@@ -15,6 +15,8 @@
             align-items: center;
             height: 100vh;
             margin: 0;
+            overflow-y: hidden;
+            overflow-x: hidden;
             background-color: white; /* Fond blanc par défaut */
         }
        
@@ -139,6 +141,7 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for better visual separation */
     padding: 100px; /* Padding inside the sections */
     margin-bottom: 20px; /* Space between sections */
+   
 }
 
 .add-product-section h2,
@@ -204,7 +207,7 @@
     overflow: auto; 
     border-radius: 90%;
     margin-top: 80%;
-    position: relative;
+    /* position: relative; */
 
 }
 
@@ -245,6 +248,22 @@
 
         .fixed-bottom .icon-container div i {
             font-size: 24px; /* Taille des icônes */
+        }
+        @media(min-width: 768px)
+        {
+            .animated-background {
+    background: #f0f4f8; 
+    border: 5px solid #F8B319; 
+    border-radius: 20px; 
+    padding: 80px; 
+    width: 1400px; 
+    height: 900px;
+    overflow: 0; 
+    border-radius: 90%;
+    margin-top: 30%;
+    /* position: relative; */
+
+}
         }
 
     </style>
@@ -304,11 +323,11 @@
            
                     <h2>Ajouter un Produit</h2>
                     <form class="form" id="add-product-form">
-                        <div class="one">
+                        <div class="one" style="gap: 20px; margin-bottom: 20px;">
                             <input type="text" id="product-name" placeholder="Nom du produit" required>
                             <input type="number" id="product-price" placeholder="Prix" required>
                         </div>
-                       <div class="two">
+                       <div class="two" style="gap: 20px;">
                         <input type="number" id="product-quantity" placeholder="Quantité" required>
                         <button type="submit">Ajouter</button>
                        </div>
