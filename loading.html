@@ -203,12 +203,12 @@
     background: #f0f4f8; 
     border: 5px solid #F8B319; 
     border-radius: 20px; 
-    padding: 20px; 
+    padding: 25px; 
     width: 700px; 
     height: 900px;
     overflow: auto; 
-    border-radius: 90%;
-    margin-top: 80%;
+    border-radius: 50%;
+    margin-top: 85%;
     /* position: relative; */
 
 }
@@ -257,8 +257,8 @@
     background: #f0f4f8; 
     border: 5px solid #F8B319; 
     border-radius: 20px; 
-    padding: 80px; 
-    width: 1500px; 
+    padding: 90px; 
+    width: 1600px; 
     height: 900px;
     overflow: 0; 
     border-radius: 90%;
@@ -328,12 +328,14 @@
                         <div class="one" style="gap: 20px; margin-bottom: 20px;">
                             <input type="text" id="product-name" placeholder="Nom du produit" required>
                             <input type="number" id="product-price" placeholder="Prix" required>
+                            <input type="date" id="product-date" required> <!-- Champ pour la date -->
                         </div>
-                       <div class="two" style="gap: 20px;">
-                        <input type="number" id="product-quantity" placeholder="Quantité" required>
-                        <button type="submit">Ajouter</button>
-                       </div>
+                        <div class="two" style="gap: 20px;">
+                            <input type="number" id="product-quantity" placeholder="Quantité" required>
+                            <button type="submit">Ajouter</button>
+                        </div>
                     </form>
+                    
                 </section>
             
                 <section class="product-list-section">
@@ -364,7 +366,6 @@
         </div>
     </div>
 
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
             </div>
          </div>
             
