@@ -176,17 +176,17 @@ async function fetchProducts(filterDate = null) {
                 const listItem = document.createElement('li');
                 listItem.textContent = `${product.name} - ${product.quantity} x ${product.price} Fcfa `;
 
-                const purchasedCheckbox = document.createElement('input');
-                purchasedCheckbox.type = 'checkbox';
-                purchasedCheckbox.checked = product.purchased;
-                purchasedCheckbox.dataset.productId = product.id;
+                // const purchasedCheckbox = document.createElement('input');
+                // purchasedCheckbox.type = 'checkbox';
+                // purchasedCheckbox.checked = product.purchased;
+                // purchasedCheckbox.dataset.productId = product.id;
 
-                const deleteBtn = document.createElement('button');
-                deleteBtn.textContent = 'Supprimer';
-                deleteBtn.dataset.productId = product.id;
+                // const deleteBtn = document.createElement('button');
+                // deleteBtn.textContent = 'Supprimer';
+                // deleteBtn.dataset.productId = product.id;
 
-                listItem.appendChild(purchasedCheckbox);
-                listItem.appendChild(deleteBtn);
+                // listItem.appendChild(purchasedCheckbox);
+                // listItem.appendChild(deleteBtn);
                 productList.appendChild(listItem);
             });
 

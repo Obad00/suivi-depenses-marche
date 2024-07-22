@@ -137,7 +137,7 @@
     background-color: #ffffff; /* White background for sections */
     border-radius: 10px; /* Rounded corners */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for better visual separation */
-    padding: 20px; /* Padding inside the sections */
+    padding: 100px; /* Padding inside the sections */
     margin-bottom: 20px; /* Space between sections */
 }
 
@@ -191,19 +191,20 @@
 }
 
 .product-list-section p {
-    text-align: center; /* Center text */
-    color: #888; /* Light gray text color */
+    text-align: center; 
+    color: #888; 
 }
 .animated-background {
-    background: #f0f4f8; /* Background color */
-    border: 5px solid #F8B319; /* Border color and width */
-    border-radius: 20px; /* Rounded corners */
-    padding: 20px; /* Padding inside the container */
-    box-sizing: border-box; /* Include padding and border in width calculation */
-    width: 100%; /* Full-width background */
-    max-height: 66.66vh; /* Two-thirds of the viewport height */
-    overflow: auto; /* Add scroll if content overflows */
-    border-radius: 100%;
+    background: #f0f4f8; 
+    border: 5px solid #F8B319; 
+    border-radius: 20px; 
+    padding: 20px; 
+    width: 700px; 
+    height: 900px;
+    overflow: auto; 
+    border-radius: 90%;
+    margin-top: 80%;
+    position: relative;
 
 }
 
@@ -292,11 +293,13 @@
             
 
          <div>
-               <input class="search" type="date" id="filter-date">
+               <!-- <input class="search" type="date" id="filter-date"> -->
             
             <div class="w-screen animated-background h-screen bg-white rounded-20 p-2" id="home">
 
                 <section class="add-product-section"> 
+                    <input class="search" type="date" id="filter-date">
+
                     <button id="logout-btn" style="display: none;">Déconnexion</button>
            
                     <h2>Ajouter un Produit</h2>
