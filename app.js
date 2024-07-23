@@ -183,7 +183,7 @@ async function fetchProducts(filterDate = null) {
             const viewMoreButton = document.createElement('a');
             viewMoreButton.href = `products.html?date=${encodeURIComponent(date)}`;
             viewMoreButton.className = 'redirect-btn';
-            viewMoreButton.innerHTML = '<i class="fas fa-arrow-right"></i>';
+            viewMoreButton.innerHTML = '<i class="fa-solid fa-share-from-square"></i>';
 
             dateSection.appendChild(viewMoreButton);
 
@@ -274,8 +274,11 @@ logoutBtn.addEventListener('click', async () => {
     alert('Déconnexion réussie!');
     currentUser = null;
     productListContainer.innerHTML = '';
-    initializePage();
+    
+    // Redirection vers la page index.html
+    window.location.href = 'index.html';
 });
+
 
 // Gestion du filtrage par date
 filterDateInput.addEventListener('input', () => {
